@@ -5,12 +5,15 @@ import  { useEffect, useState } from 'react';
 import { getDocs, collection } from 'firebase/firestore'; 
 import db from '../../Firebase.js';
 import AnnouncementCard from '../Annoucementcard/AnnouncementCard.jsx';
+import Add from '../Add/Add.jsx';
 
 export default function Search() {
     const [data, setData] = useState([]);
     const [date,setdate]=useState();
     const [Alldata,setAllData]=useState([]);
     const [filtered,setFiltered]=useState([]); 
+    const[add,setAdd]=useState(false);
+
     useEffect(() => {
         const fetchData = async () => {
           try {
@@ -45,27 +48,30 @@ else{
 } 
 
 }
-  
+  const showModel=()=>{setAdd(true)}
+  const closeModel=()=>{setAdd(false)}
   return (
         <>
-<Maindiv >
+             
+    <Maindiv >
     <div className='Serach'>
-    <button type="button" onClick={()=>{setFiltered(Alldata)}}>All</button>
+    <button type="button" onClick={()=>{setFiltered(Alldata)}}>Show all</button>
     <span>Select date </span><input type="date" onChange={handlechagnge} value={date} name="Select_date" id="" />
       
      </div>
-    <MdAddCircle fontSize="24px" className='addbtn' title='Add the Announcement'/>
-    
-    
-</Maindiv>     
-<Annoucements >
 
+    <MdAddCircle fontSize="24px" className='addbtn' onClick={showModel} title='Add the Announcement'/>
+    
+    </Maindiv>     
+    <Annoucements >
 {
   (!filtered || filtered.length===0)
   ? (<p className='nodata'>No Annoucement Found</p>)
   : (filtered.map((a)=>{return (<AnnouncementCard key={a.id} annoucement={a}/>)}))
 }
-    </Annoucements> 
+    </Annoucements>
+
+ {add &&<Add closeModel={closeModel} />}  
     </>
   )
 }
@@ -94,7 +100,7 @@ gap:10px;
   font-size:18px;
 background-color:transparent;
 color:var(--Blue);
-width:75px;
+width:100px;
 border:1px solid var(--Blue);
 border-radius:5px;
 cursor: pointer;
