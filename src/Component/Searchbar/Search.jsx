@@ -5,6 +5,8 @@ import  { useEffect, useState } from 'react';
 import { getDocs, collection } from 'firebase/firestore'; 
 import db from '../../Firebase.js';
 import AnnouncementCard from '../Annoucementcard/AnnouncementCard.jsx';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Add from '../Add/Add.jsx';
 
 export default function Search() {
@@ -49,7 +51,23 @@ else{
 
 }
   const showModel=()=>{setAdd(true)}
-  const closeModel=()=>{setAdd(false)}
+  const closeModel=()=>{
+    setAdd(false)
+   }
+
+      const closeAddModel=()=>{
+        setAdd(false)
+        toast.success('Announcement has been Added', {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          });}
+
   return (
         <>
              
@@ -71,7 +89,8 @@ else{
 }
     </Annoucements>
 
- {add &&<Add closeModel={closeModel} />}  
+ {add &&<Add closeModel={closeModel} closeAddModel={closeAddModel}/>}  
+  <ToastContainer />
     </>
   )
 }

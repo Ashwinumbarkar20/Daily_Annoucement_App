@@ -1,7 +1,31 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { FaAlignCenter } from 'react-icons/fa'
 import styled from 'styled-components'
-export default function Add({closeModel}) {
+
+export default function Add({closeModel,closeAddModel}) {
+
+const [newAnnoucement,setNewAnnouncement]=useState({
+    Date:"",
+    Annoucement:""
+})
+    const handleFormSubmit=(e)=>{
+        e.preventDefault();
+        try{
+           
+                        
+            closeAddModel();
+        }
+        catch(e){console.log(e)}
+    }
+    const handleChange=(e)=>{
+const name=e.target.name;
+const value=e.target.value;
+setNewAnnouncement((previous)=>({
+    ...previous,[name]:value
+}))
+
+    }
+
   return (
     <>
       <Wrapper className='Model-wrapper' >
@@ -10,19 +34,20 @@ export default function Add({closeModel}) {
             <h3>Add Annoucement</h3>
             <p onClick={closeModel}>X</p>
             </div>
-            
+            <form onSubmit={handleFormSubmit}>
             <div>
                 <label htmlFor="">Enter Date</label>
-                <input type="date" />
+                <input type="date" name="Date" onChange={handleChange} value={newAnnoucement.Date}  />
             </div>
             <div>
-                <label htmlFor="">Enter announcement</label>
-                <input type="text" />
+                <label htmlFor="">Enter Announcement</label>
+                <input type="text" name="Annoucement" onChange={handleChange} value={newAnnoucement.Announcement}  />
             </div>
             <button type='submit' className='addbtn'>Add Annoucement</button>
-            
+            </form>
         </div>
       </Wrapper>
+     
     </>
   )
 }
@@ -70,8 +95,9 @@ p{
     border-radius:5px;
 }
     }
-    
-div{
+    form{
+width:100%;
+        div{
   padding:10px;
   width:80%;
   display:flex;
@@ -88,6 +114,8 @@ div{
   }
       
     }
+    }
+
     .addbtn{
         padding:5px;
         color:var(--Blue);
