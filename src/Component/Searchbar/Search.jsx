@@ -21,7 +21,7 @@ export default function Search() {
           try {
             const querySnapshot = await getDocs(collection(db, 'AnnoucementDB'));
             const documents = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-            setData(documents);
+            setData([...documents]);
             setAllData(documents);
             setFiltered(documents);
             
@@ -46,16 +46,13 @@ else{
     const itemDate = item.CreatedAt.toDate().toLocaleDateString();
     return itemDate === converteddate;
   });
-  setFiltered(filterdata1);
+  setFiltered([...filterdata1]);
 } 
 
 }
   const showModel=()=>{setAdd(true)}
-  const closeModel=()=>{
-    setAdd(false)
-   }
-
-      const closeAddModel=()=>{
+  const closeModel=()=>{setAdd(false)}
+  const closeAddModel=()=>{
         setAdd(false)
         toast.success('Announcement has been Added', {
           position: "top-center",

@@ -49,7 +49,7 @@ span{
   padding:5px;
   border:1px solid var(--Yellow);
   border-radius:10px;
-  box-shadow:3px 3px 6px rgba(0,0,0,0.3), inset -3px  -3px  6px rgba(0,0,0,0.3) ;
+  box-shadow:0px 0px 0px rgba(0,0,0,0.3), inset -3px  -3px  6px rgba(0,0,0,0.3) ;
   transition:all 0.3s ease-in-out;
   &:hover{
   filter:brightness(1.19);

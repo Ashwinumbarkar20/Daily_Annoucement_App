@@ -1,18 +1,25 @@
 import React, { useState } from 'react'
 import { FaAlignCenter } from 'react-icons/fa'
+import { addDoc, collection } from 'firebase/firestore';
+import db from '../../Firebase.js';
 import styled from 'styled-components'
 
 export default function Add({closeModel,closeAddModel}) {
 
 const [newAnnoucement,setNewAnnouncement]=useState({
-    Date:"",
-    Annoucement:""
+    CreatedAt: new Date(),
+    Announcement:"",
 })
-    const handleFormSubmit=(e)=>{
+    const handleFormSubmit=async (e)=>{
         e.preventDefault();
         try{
-           
-                        
+            const docRef = await addDoc(collection(db, 'AnnoucementDB'), {
+                //CreatedAt: new Date(), 
+                ...newAnnoucement,
+              
+              });
+        
+              console.log('Document written with ID: ', docRef.id);                  
             closeAddModel();
         }
         catch(e){console.log(e)}
@@ -20,10 +27,7 @@ const [newAnnoucement,setNewAnnouncement]=useState({
     const handleChange=(e)=>{
 const name=e.target.name;
 const value=e.target.value;
-setNewAnnouncement((previous)=>({
-    ...previous,[name]:value
-}))
-
+setNewAnnouncement((previous)=>({...previous,[name]:value}))
     }
 
   return (
@@ -35,13 +39,13 @@ setNewAnnouncement((previous)=>({
             <p onClick={closeModel}>X</p>
             </div>
             <form onSubmit={handleFormSubmit}>
-            <div>
-                <label htmlFor="">Enter Date</label>
-                <input type="date" name="Date" onChange={handleChange} value={newAnnoucement.Date}  />
-            </div>
+            {/* <div>
+              <p >`Date: ${newAnnoucement.CreatedAt}`</p> 
+              
+            </div> */}
             <div>
                 <label htmlFor="">Enter Announcement</label>
-                <input type="text" name="Annoucement" onChange={handleChange} value={newAnnoucement.Announcement}  />
+                <input type="text" name="Announcement" onChange={handleChange} value={newAnnoucement.Announcement}  />
             </div>
             <button type='submit' className='addbtn'>Add Annoucement</button>
             </form>
@@ -78,25 +82,33 @@ const Wrapper=styled.div`
     align-items:center;
     border:1px solid var(--Yellow);
     padding:5px;
+
     .header{
         display:flex;
         flex-direction:row;
         justify-content:space-between;
         align-items:center;
 
-        h3{
-        width:100%;
-        color:var(--Yellow);
-    }
-p{
-    padding:2px 5px;
-    cursor: pointer;
-    border:2px solid var(--Yellow);
-    border-radius:5px;
-}
+        h3
+        {
+            width:100%;
+            color:var(--Yellow);
+        }
+        p
+        {
+            padding:2px 5px;
+            cursor: pointer;
+            border:2px solid var(--Yellow);
+            border-radius:5px;
+        }
     }
     form{
-width:100%;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+
+    width:100%;
         div{
   padding:10px;
   width:80%;
